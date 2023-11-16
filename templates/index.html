@@ -1,0 +1,292 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Client Summary</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+
+    <div class="header-main">
+        <div class="header-content">
+            <i class="fas fa-user"></i>
+            <p>{{patient_name}}</p>
+        </div>
+        <div class="header-content">
+            <i class="fas fa-user-md"></i>
+            <p>{{dr_name}}</p>
+        </div>
+    </div>
+
+    
+</head>
+<body>
+    <div class="main-body">
+        <div class="summary-box">
+            <div class="text-container">
+                <div style="display:flex;justify-content: space-between;">
+                    <div class="left">
+                        <div class="heading-text">
+                            <h1>Summary</h1>
+                            <div class="duration-selected">
+                                <h4>{{duration}} minute</h4>
+                            </div>
+                        </div>
+                        <div class="speech-button">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                    </div>
+                        
+                    <div class="right">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="summary-text"><p>{{summary_text}}</p>
+                </div>
+            </div>
+            
+            <div class="buttons-container">
+                <div><h2>Length: </h2></div>
+                <div><a href="/one-minute"><button>1 min</button></a></div>
+                <div><a href="/two-minute"><button>2 min</button></a></div>
+                <div><a href="/five-minute"><button>5 min</button></a></div>
+                
+            </div>
+        </div>
+        <div class="extracted-info">
+            <div class="title-center">
+                <div class="title">
+                    <h3>Extracted Info:</h3>
+                </div>
+            </div>
+            <div class="tiles">
+                {% for param in parameters%}
+                <div class="tile"><p style="text-transform: capitalize;">{{param}}</p></div>
+                {% endfor %}
+                
+            </div>
+            
+        </div>
+    </div>  
+</body>
+</html>
+<style>
+    * {
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+body {
+    background-color: black;
+}
+.header-main {
+    background-color: #404040;
+    width: 100%;
+    align-items: center;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.fas {
+    font-size: 2rem;
+}
+.header-div i {
+    color: #0CC0DF;
+}
+.fa-user, .fa-user-md {
+    margin-right:20px;
+    color: #0CC0DF;
+}
+.fa-user {
+    font-size: 1.8rem !important;
+}
+.header-content {
+    width:auto;
+    font-size: 1.5rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-around;
+    color:#fff;
+    font-weight: 500 !important;
+    margin: 40px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.main-body {
+    display: flex;
+    width:97%;
+    height: 550px;
+    margin: auto;
+    justify-content: space-between;
+}
+.extracted-info {
+    width: 30%;
+    max-width: 300px;
+    min-height: 500px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+}
+.title-center {
+    height: 30px;
+    margin-bottom: 10px;
+}
+.title {
+    height: 30px;
+    margin: auto;
+    font-size: 1.3rem;
+    width: 175px;
+    display: flex;
+    color: white;
+}
+.tiles {
+    max-height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.tile {
+    height: 70px;
+    text-align: center;
+    cursor: pointer;
+    margin:10px;
+    background-color: #545454;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.tile:hover {
+    background-color: #0a91a9;
+}
+.summary-box {
+    background-color: blue;
+    min-height: 500px;
+    width: 70%;
+    margin: 3h0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.text-container {
+    height: 80%;
+    background-color: #404040;
+}
+.summary-box {
+    background-color: black;
+}
+.buttons-container {
+    display: flex;
+    width: 580px;
+    height: 40px;
+    font-size: 1.4rem;
+    margin-left: 13px;
+    margin-top:30px;
+    background-color: black;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.buttons-container button {
+    width: 120px;
+    cursor: pointer;
+    height: 40px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    font-weight: bolder;
+    color: white;
+    background-color: #0CC0DF;
+}
+.buttons-container h2 {
+    color: white;
+    font-weight: 600;
+}
+.heading-text {
+    color:white;
+    width: 348px;
+    font-size: 1.8rem;
+    font-weight: bolder;
+    margin-top:10px;
+    margin-left:20px; 
+    position: relative;
+}
+.duration-selected {
+    color: #737373;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.4rem;
+    position: absolute;
+    bottom:0px;
+    right: 0px;
+}
+.speech-button {
+    width: 50px;
+    cursor: pointer;
+    height: 50px;
+    background-color: #0CC0DF;
+    border-radius: 100%;
+    position: relative;
+}
+
+.fa-volume-up {
+    color: white;
+    position: absolute;
+    font-size: 1.7rem;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+.left {
+    width: 470px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.fa-times {
+    color: #f1f1f1;
+    padding: 30px;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.summary-text {
+    width: auto;
+    padding:30px;
+    color: white;
+    overflow-y: auto;
+    font-size: 1.5rem;
+}
+
+button:hover, .speech-button:hover {
+    background-color: #0a91a9;
+}
+
+.fa-times:hover {
+    color: #0a91a9;
+}
+</style>
