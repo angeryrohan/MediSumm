@@ -2,7 +2,7 @@
 ##get all parameters 
 import xml.etree.ElementTree as ET
 
-xml_file_path = 'XML Files/Brock_Purdy_0059_ClinicalSummary.xml'
+xml_file_path = 'XML Files/Harry_Styles_0056_ClinicalSummary.xml'
 tree = ET.parse(xml_file_path)
 root = tree.getroot()
 
