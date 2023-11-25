@@ -1,4 +1,4 @@
-from app import *
+from structured_dictionary import *
 from datetime import datetime
 
 #function to get the most recent date in an array of dates
