@@ -1,30 +1,7 @@
-#!/bin/python
-
-from datetime import datetime
-
-def find_most_recent_date(date_array):
-    if not date_array:
-        return None  # Handle empty array
-
-    # Parse the first date as the initial reference
-    most_recent_date = datetime.strptime(date_array[0], "%m/%d/%Y")
-
-    # Iterate through the remaining dates
-    for date_str in date_array[1:]:
-        current_date = datetime.strptime(date_str, "%m/%d/%Y")
-        if current_date > most_recent_date:
-            most_recent_date = current_date
-
-    return most_recent_date.strftime("%m/%d/%Y")
-
-
-#XML files
-xml_file_path = 'Harry_Styles_0056_ClinicalSummary.xml'
-
-
 #get all parameters 
 import xml.etree.ElementTree as ET
 
+xml_file_path = 'XML Files/Brock_Purdy_0059_ClinicalSummary.xml'
 tree = ET.parse(xml_file_path)
 root = tree.getroot()
 
@@ -42,8 +19,7 @@ dr_last_name = root.find("{urn:hl7-org:v3}author/{urn:hl7-org:v3}assignedAuthor/
 dr_name = "Dr. " +dr_first_name + " " + dr_last_name
 
 #function for getting details of each parameter
-from tabulate import tabulate
-import xml.etree.ElementTree as ET
+
 
 def extract_component_titles(xml_file_path):
     # Parse the XML file
@@ -115,23 +91,3 @@ parameters_list = [{'name': title, 'title': title} for title in component_titles
 
 # Extract information for all parameters
 all_extracted_info = extract_information(xml_file_path, parameters_list)
-
-# Print the extracted information for all parameters
-parameter_dic={}
-problems=[]
-dates=[]
-for name,info in all_extracted_info.items():
-    if(str(info).replace(' ','') != ''):
-        #parameter_dic[name] = tabulate(info['Table Rows'], headers=info['Table Headers'], tablefmt='plain')
-        if(name == 'PROBLEMS'):
-            all_extracted_info[name]['Table Rows'].pop(0)
-            #print(all_extracted_info[name]['Table Rows'])
-            for x in all_extracted_info[name]['Table Rows']:
-                problems.append(x[0].split(",")[0])
-                dates.append(x[2])
-            most_recent_date = find_most_recent_date(dates)
-            idx = dates.index(str(most_recent_date))
-            first_set = (all_extracted_info[name]['Table Rows'][idx][0].split(',')[0],all_extracted_info[name]['Table Rows'][idx][2])
-            print(first_set)
-
-# create one function for returning the array of filled-table parameters

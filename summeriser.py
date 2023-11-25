@@ -1,5 +1,5 @@
 import openai
-from testu import *
+from recent_info import *
 openai.api_key = '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'
 
 
@@ -22,15 +22,6 @@ def compose_message(duration_in_minutes, *param):
     final_msg = "I am a doctor and I have the following information." + msg + ". I want you to summarize this in " + str(duration_in_minutes*100) + " words without loosing any major health information."
     return final_msg
   
-
-print(type(p1))
-print(type(ed1))
-print(type(med1))
-print(type(med1))
-print(type(rfv1))
-print(type(tp1))
-print(type(alg1))
-print(type(alg_severity))
 
 # output = openai.ChatCompletion.create(
 #   model="gpt-3.5-turbo", 
