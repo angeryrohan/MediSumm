@@ -81,7 +81,7 @@ def get_recent_problems(dim, filled_information):
                 pass
     return False
 
-print(get_recent_problems(5,filled_information))
+#print(get_recent_problems(5,filled_information))
 
 
 
@@ -147,9 +147,10 @@ def get_recent_treatment_plan(filled_information):
 
 #print(get_recent_treatment_plan(filled_information))
 
-def get_recent_EncounterDiagnosis(filled_information):
+def get_recent_EncounterDiagnosis(dim,filled_information):
     for name,info in filled_information.items():
             if(name == 'Encounter Diagnosis'):
+                answer=[]
                 EncounterDiagnosis = []
                 dates = []
                 # remove the first empty bracket
@@ -159,14 +160,44 @@ def get_recent_EncounterDiagnosis(filled_information):
                     if(row[2] != ''):
                         EncounterDiagnosis.append(row[0].split(',')[0])
                         dates.append(row[2])
-                most_recent_date = get_most_recent_date(dates)
-                most_recent_index = dates.index(str(most_recent_date))
-                return(EncounterDiagnosis[most_recent_index ], dates[most_recent_index])
+                match dim:
+                    case 1:
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        return answer
+                    case 2: 
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        EncounterDiagnosis.pop(most_recent_index)
+                        dates.pop(most_recent_index)
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        return answer
+                    case 5:
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        EncounterDiagnosis.pop(most_recent_index)
+                        dates.pop(most_recent_index)
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        EncounterDiagnosis.pop(most_recent_index)
+                        dates.pop(most_recent_index)
+                        most_recent_date = get_most_recent_date(dates)
+                        most_recent_index = dates.index(str(most_recent_date))
+                        answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                        return answer
+
             else:
                 pass
     return False 
 
-#print(get_recent_EncounterDiagnosis(filled_information))
+print(get_recent_EncounterDiagnosis(5,filled_information))
+
 
 # def get_important_vital_signs(filled_information):
 #     for name,info in filled_information.items():
