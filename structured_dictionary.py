@@ -1,4 +1,5 @@
-#get all parameters 
+#testing: 25/Nov/23 Ruhensi
+##get all parameters 
 import xml.etree.ElementTree as ET
 
 xml_file_path = 'XML Files/Brock_Purdy_0059_ClinicalSummary.xml'
