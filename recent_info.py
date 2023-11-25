@@ -88,7 +88,9 @@ def get_recent_problems(dim, filled_information):
 
 
 
-def get_recent_medication(filled_information):
+def get_recent_medication(dim,filled_information):
+
+    answer = []
     medications = []
     directions = []
     dates = []
@@ -100,17 +102,50 @@ def get_recent_medication(filled_information):
                 medications.append(row[0])
                 directions.append(row[1])
                 dates.append(row[3])
-        most_recent_date = get_most_recent_date(dates)
-        #print(dates)
-        most_recent_index = most_recent_date.index(str(most_recent_date))
-        #print(most_recent_index)
-        return (medications[most_recent_index], directions[most_recent_index], dates[most_recent_index])
+        match dim:
+            case 1:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = most_recent_date.index(str(most_recent_date))
+                answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 2:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = most_recent_date.index(str(most_recent_date))
+                answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                medications.pop(most_recent_index)
+                directions.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = most_recent_date.index(str(most_recent_date))
+                    answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 5:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = most_recent_date.index(str(most_recent_date))
+                answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                medications.pop(most_recent_index)
+                directions.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = most_recent_date.index(str(most_recent_date))
+                    answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                    medications.pop(most_recent_index)
+                    directions.pop(most_recent_index)
+                    dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = most_recent_date.index(str(most_recent_date))
+                    answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
+                return answer
     else:
         return False
 
 print(get_recent_medication(filled_information))
 
-def get_recent_reason_for_visit(filled_information):
+def get_recent_reason_for_visit(dim,filled_information):
+    answer=[]
     reasons=[]
     dates=[]
     if('REASON FOR VISIT' in filled_information):
@@ -120,16 +155,48 @@ def get_recent_reason_for_visit(filled_information):
             if(row[0] != ''):
                 reasons.append(row[1])
                 dates.append(row[0])
-        most_recent_date = get_most_recent_date(dates)
-        most_recent_index = dates.index(str(most_recent_date))
-        return (reasons[most_recent_index], dates[most_recent_index])
+        match dim:
+            case 1:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 2:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                reasons.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 5:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                reasons.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                    reasons.pop(most_recent_index)
+                    dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((reasons[most_recent_index], dates[most_recent_index]))
+                return answer
+        
     else:
         return False
 
-print(get_recent_reason_for_visit(filled_information))
+print(get_recent_reason_for_visit(5,filled_information))
 
-def get_recent_treatment_plan(filled_information):
-
+def get_recent_treatment_plan(dim,filled_information):
+    answer =[]
     treatments=[]
     dates=[]
     if('TREATMENT PLAN' in filled_information):
@@ -139,13 +206,45 @@ def get_recent_treatment_plan(filled_information):
             if(row[0] != ''):
                 treatments.append(row[1])
                 dates.append(row[0])
-        most_recent_date = get_most_recent_date(dates)
-        most_recent_index = dates.index(str(most_recent_date))
-        return (treatments[most_recent_index], dates[most_recent_index])
+        match dim:
+            case 1:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 2:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                treatments.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                return answer
+            case 5:
+                most_recent_date = get_most_recent_date(dates)
+                most_recent_index = dates.index(str(most_recent_date))
+                answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                treatments.pop(most_recent_index)
+                dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                    treatments.pop(most_recent_index)
+                    dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((treatments[most_recent_index], dates[most_recent_index]))
+                return answer
+        
     else:
         return False
 
-print(get_recent_treatment_plan(filled_information))
+print(get_recent_treatment_plan(5,filled_information))
 
 def get_recent_EncounterDiagnosis(dim,filled_information):
     answer=[]
@@ -171,9 +270,10 @@ def get_recent_EncounterDiagnosis(dim,filled_information):
                 answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
                 EncounterDiagnosis.pop(most_recent_index)
                 dates.pop(most_recent_index)
-                most_recent_date = get_most_recent_date(dates)
-                most_recent_index = dates.index(str(most_recent_date))
-                answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
                 return answer
             case 5:
                 most_recent_date = get_most_recent_date(dates)
@@ -181,14 +281,16 @@ def get_recent_EncounterDiagnosis(dim,filled_information):
                 answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
                 EncounterDiagnosis.pop(most_recent_index)
                 dates.pop(most_recent_index)
-                most_recent_date = get_most_recent_date(dates)
-                most_recent_index = dates.index(str(most_recent_date))
-                answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
-                EncounterDiagnosis.pop(most_recent_index)
-                dates.pop(most_recent_index)
-                most_recent_date = get_most_recent_date(dates)
-                most_recent_index = dates.index(str(most_recent_date))
-                answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
+                    EncounterDiagnosis.pop(most_recent_index)
+                    dates.pop(most_recent_index)
+                if(len(dates) != 0):
+                    most_recent_date = get_most_recent_date(dates)
+                    most_recent_index = dates.index(str(most_recent_date))
+                    answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
                 return answer
     else:
         return False
