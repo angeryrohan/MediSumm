@@ -6,11 +6,10 @@
     <title>Client Summary</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
 
-
     <div class="header-main">
         <div class="header-content">
             <i class="fas fa-user"></i>
-            <p>{{patient_name}}</p>
+            <p>{{patient_name.capitalize()}}</p>
         </div>
         <div class="header-content">
             <i class="fas fa-user-md"></i>
@@ -18,7 +17,7 @@
         </div>
     </div>
 
-    
+
 </head>
 <body>
     <div class="main-body">
@@ -42,6 +41,7 @@
                     </div>
                 </div>
                 <div class="summary-text"><p>{{summary_text}}</p>
+                    
                 </div>
             </div>
             
@@ -60,21 +60,55 @@
                 </div>
             </div>
             <div class="tiles">
-                {% for param in parameters%}
-                <div class="tile"><p style="text-transform: capitalize;">{{param}}</p></div>
+                {% for name in parameter_dic%}
+                 {% if name.lower().replace(' ', '_') != 'notes_section'%}
+                <div onclick="showDiv(this)" class="tile {{name.lower().replace(' ', '_')}}"><p>{{name.capitalize().replace('_', " ")}}</p></div>
+                 {% endif %}
                 {% endfor %}
-                
             </div>
             
         </div>
     </div>  
 </body>
+<footer>
+{% for name in parameter_dic %}
+<div class="info" id="{{name.lower().replace(' ','_')}}">
+    <center>
+        <h1 id="parameter_heading" style="color: white;">{{name.capitalize().replace('_', ' ')}}</h1><br><br><br>
+        {% if parameter_dic[name]|length > 150 %}
+            {{parameter_dic[name] |safe}}    
+        {% else %}
+            <h1 style="color:white;">Data not available</h1>
+        {% endif %}
+    </center>
+</div>
+{% endfor %}
+</footer>
 </html>
 <style>
-    * {
+
+* {
     margin:0;
     padding:0;
     font-family: Arial, Helvetica, sans-serif;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color:rgba(12,192,223,0.4);
+}
+footer td, th{
+    color: #fff;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -177,6 +211,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    text-transform: capitalize;
 }
 .tile:hover {
     background-color: #0a91a9;
@@ -193,6 +228,8 @@ body {
 .text-container {
     height: 80%;
     background-color: #404040;
+    overflow-y: auto;
+    overflow-x: auto ;
 }
 .summary-box {
     background-color: black;
@@ -259,6 +296,14 @@ body {
     left:50%;
     transform: translate(-50%, -50%);
 }
+.fa-pause {
+    color: white;
+    position: absolute;
+    font-size: 1.7rem;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
 .left {
     width: 470px;
     display: flex;
@@ -289,4 +334,58 @@ button:hover, .speech-button:hover {
 .fa-times:hover {
     color: #0a91a9;
 }
+.mystyle {
+    background-color: red;
+}
 </style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+var element = document.getElementsByClassName("speech-button")[0];
+var icon = document.getElementsByClassName("fas")[2];
+function readText() {
+  var textToRead = document.getElementsByClassName("summary-text")[0].innerText;
+  
+  // Check if speech is already being spoken
+  if ('speechSynthesis' in window && !speechSynthesis.speaking) {
+    var speech = new SpeechSynthesisUtterance(textToRead);
+    speech.lang = 'en-US';
+    
+    // Event listener for when speech ends
+    speech.onend = function(event) {
+      console.log('Speech finished');
+      icon.classList.toggle("fa-volume-up");
+    icon.classList.toggle("fa-pause");
+      // You can perform additional actions here if needed
+    };
+
+    // Speak the text
+    speechSynthesis.speak(speech);
+  } else {
+    speechSynthesis.cancel()
+  }
+}
+
+element.onclick = function() { 
+    icon.classList.toggle("fa-volume-up");
+    icon.classList.toggle("fa-pause");
+    readText();
+}
+var elements = document.getElementsByClassName("info");
+    for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+        }
+ function showDiv(clickedDiv) {
+    info_id = clickedDiv.classList[1];
+    info_div = document.getElementById(info_id);
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+        }
+    info_div.style.display = "inherit"
+    $('html, body').animate({
+          scrollTop: $('#parameter_heading').offset().top + 300
+        }, 1000);    
+ }
+
+
+</script>
