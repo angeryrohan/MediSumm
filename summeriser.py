@@ -1,11 +1,15 @@
+import os
 import openai
+from dotenv import load_dotenv
 import itertools
 import threading
 import time
 import sys
 from recent_info import *
+load_dotenv()
+my_api_key = os.environ.get('API_KEY')
+openai.api_key = my_api_key
 
-openai.api_key = '<YOUR-OPENAI-API-KEY-HERE>'
 
 def problems_summary(my_arr):
     if(my_arr != [('','')]):
@@ -105,6 +109,7 @@ output = openai.ChatCompletion.create(
       input_fms}]
     )
 fms = str(output['choices'][0]['message']['content'])
+
 
 done = True
 
