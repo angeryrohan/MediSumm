@@ -28,7 +28,7 @@
                         <div class="heading-text">
                             <h1>Summary</h1>
                             <div class="duration-selected">
-                                <h4>{{duration}} minute</h4>
+                                <h4 id="dim">1 minute</h4>
                             </div>
                         </div>
                         <div class="speech-button">
@@ -349,16 +349,19 @@ document.getElementById('oms').style.display = "inherit"
 document.getElementById('tms').style.display = "none"
 document.getElementById('fms').style.display = "none"
 function oms_button() {
+    document.getElementById('dim').innerHTML = "1 minute"
     document.getElementById('oms').style.display = "inherit"
     document.getElementById('tms').style.display = "none"
     document.getElementById('fms').style.display = "none"
 }
 function tms_button() {
+    document.getElementById('dim').innerHTML = "2 minute"
     document.getElementById('oms').style.display = "none"
     document.getElementById('tms').style.display = "inherit"
     document.getElementById('fms').style.display = "none"
 }
 function fms_button() {
+    document.getElementById('dim').innerHTML = "5 minute"
     document.getElementById('oms').style.display = "none"
     document.getElementById('tms').style.display = "none"
     document.getElementById('fms').style.display = "inherit"

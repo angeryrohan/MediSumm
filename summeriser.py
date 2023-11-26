@@ -5,7 +5,7 @@ import time
 import sys
 from recent_info import *
 
-openai.api_key = 'OPENAI-API-KEY-GOES-HERE'
+openai.api_key = '<YOUR-OPENAI-API-KEY-HERE>'
 
 def problems_summary(my_arr):
     if(my_arr != [('','')]):
