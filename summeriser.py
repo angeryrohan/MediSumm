@@ -1,70 +1,113 @@
 import openai
+import itertools
+import threading
+import time
+import sys
 from recent_info import *
 
-for x,y in filled_information.items():
-    print(x)
-#openai.api_key = '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'
+openai.api_key = 'OPENAI-API-KEY-GOES-HERE'
 
 def problems_summary(my_arr):
-    problems_msg=""
-    for problem, recent_date in my_arr:
-        problems_msg+= " Problem: " + problem + "." + " date: " + recent_date + "."
-    return problems_msg
+    if(my_arr != [('','')]):
+        problems_msg=""
+        for problem, recent_date in my_arr:
+            problems_msg+= " Problem: " + problem + "." + " date: " + recent_date + "."
+        return problems_msg
+    else:
+        return ''
 
 def medications_and_directions_summary(my_arr):
-    mnd_msg=""
-    for med,direc,my_date in my_arr:
-        mnd_msg+= " Medication: " + med + ". Direction: " + direc + ". Date: " + my_date
-    return mnd_msg
+    if(my_arr != [('','','')]):
+        mnd_msg=""
+        for med,direc,my_date in my_arr:
+            mnd_msg+= " Medication: " + med + ". Direction: " + direc + ". Date: " + my_date
+        return mnd_msg
+    else:
+        return ''
 
 def reason_for_visit_summary(my_arr):
-    rfv_msg=""
-    for rfv, date in my_arr:
-        problems_msg+= " Reason for visit: " + rfv + "." + " date: " + date + "."
-    return rfv_msg
+    if(my_arr != [('','')]):
+        rfv_msg=""
+        for rfv, date in my_arr:
+            rfv_msg+= " Reason for visit: " + rfv + "." + " date: " + date + "."
+        return rfv_msg
+    else:
+        return ''
 
 def treatment_plan_summary(my_arr):
-    tp_msg=""
-    for tp, date in my_arr:
-        problems_msg+= " Treatment Plan: " + tp + "." + " date: " + date + "."
-    return tp_msg
+    if(my_arr != [('','')]):
+        tp_msg=""
+        for tp, date in my_arr:
+            tp_msg+= " Treatment Plan: " + tp + "." + " date: " + date + "."
+        return tp_msg
+    else:
+        return ''
 
 def encounter_diagnosis_summary(my_arr):
-    ed_msg=""
-    for tp, date in my_arr:
-        problems_msg+= " Encountered Diagnosis: " + ed + "." + " date: " + date + "."
-    return ed_msg 
+    if(my_arr != [('','')]):
+        ed_msg=""
+        for ed, date in my_arr:
+            ed_msg+= " Encountered Diagnosis: " + ed + "." + " date: " + date + "."
+        return ed_msg 
+    else:
+        return ''
 
-def allergies_summary(allergen, severity):
-    allergy_msg =  "Allergy: " + allergen + "." + " Severity: " + severity + "."
-    return allergy_msg
-
-
-#problems = get_recent_problems(filled_information)
-#encounter_diagnosis = "Encounter Diagnosis: " + str(get_recent_EncounterDiagnosis(filled_information)[0])
-#medication_and_direction = "Medication: " + str(get_recent_medication(filled_information)[0])
-#reason_for_visit = "Reason for visit: " + str(get_recent_reason_for_visit(filled_information)[0])
-#treatment_and_plan = "Treatment Plan: " + str(get_recent_treatment_plan(filled_information)[0])
-#allergy_and_severity = "Allergy: " + str(get_recent_allergies(filled_information)[0])
-
-#input2GPT = "I am a doctor and I have the following information. Problems: " + str(p1) + ". Encounter Diagnosis: " + str(ed1) + ". Medications and directions: " + str(med1) + ". " + str(dir1) + ". Reason for visit: " + str(rfv1) + ". Treatment Plan: " + str(tp1) + ". Allergies: " +  str(alg1) + ". Allergy severity: " + str(alg_severity) + ". I want you to summarize this in 100 words without loosing any major health information."
-#print(input2GPT)
+def allergies_summary(my_arr):
+    if(my_arr != [('','')]):
+        for (allergen, severity) in my_arr:
+            allergy_msg =  "Allergy: " + allergen + "." + " Severity: " + severity + "."
+            return allergy_msg
+    else:
+        return ''
 
 # function to create an array  
+def compose_message(dim):
+    final_message = ""
+    final_message += problems_summary(get_recent_problems(dim, filled_information)) + medications_and_directions_summary(get_recent_medication(dim, filled_information)) + reason_for_visit_summary(get_recent_reason_for_visit(dim, filled_information)) + treatment_plan_summary(get_recent_treatment_plan(dim,filled_information)) + encounter_diagnosis_summary(get_recent_EncounterDiagnosis(dim,filled_information)) + allergies_summary(get_recent_allergies(filled_information))
+    return "Give me a summary about a patient in about " + str(dim*100) +" words without loosing any major health information. Don't mention dates too much, but highlight the patterns in them. Here is the information about the patient: " + final_message
+
+done = False
+#here is the animation
+def animate():
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+        if done:
+            break
+        sys.stdout.write('\r Making a concise and smart summary. Please Wait ' + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
+    sys.stdout.write('\Almost Done, Loading Web Page!     ')
+
+t = threading.Thread(target=animate)
+t.start()
+
+input_oms =  compose_message(1)
+output = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages=[{"role": "user", "content": 
+    input_oms}]
+    )
+oms = str(output['choices'][0]['message']['content'])
 
 
-def compose_message(duration_in_minutes, *param):
-    msg=""
-    if(param == "none"):
-        msg+=param
-    final_msg = "I am a doctor and I have the following information." + msg + ". I want you to summarize this in " + str(duration_in_minutes*100) + " words without loosing any major health information."
-    return final_msg
-  
+input_tms = compose_message(2)
+output = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages=[{"role": "user", "content": 
+      input_tms}]
+    )
+tms = str(output['choices'][0]['message']['content'])
 
-# output = openai.ChatCompletion.create(
-#   model="gpt-3.5-turbo", 
-#   messages=[{"role": "user", "content": 
-#     input2GPT}]
-#   )
 
-# outputGPT = output['choices'][0]['message']['content']
+input_fms = compose_message(5)
+output = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages=[{"role": "user", "content": 
+      input_fms}]
+    )
+fms = str(output['choices'][0]['message']['content'])
+
+done = True
+
+
+
+

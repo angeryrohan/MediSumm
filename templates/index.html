@@ -40,16 +40,18 @@
                         <i class="fas fa-times"></i>
                     </div>
                 </div>
-                <div class="summary-text"><p>{{summary_text}}</p>
-                    
+                <div class="summary-text">
+                    <p style="display: none;" id="oms">{{oms}}</p>
+                    <p style="display: none;" id="tms">{{tms}}</p>
+                    <p style="display: none;" id="fms">{{fms}}</p>
                 </div>
             </div>
             
             <div class="buttons-container">
                 <div><h2>Length: </h2></div>
-                <div><a href="/one-minute"><button>1 min</button></a></div>
-                <div><a href="/two-minute"><button>2 min</button></a></div>
-                <div><a href="/five-minute"><button>5 min</button></a></div>
+                <div><button onclick="oms_button()">1 min</button></div>
+                <div><button onclick="tms_button()">2 min</button></div>
+                <div><button onclick="fms_button()">5 min</button></div>
                 
             </div>
         </div>
@@ -109,6 +111,9 @@ tr:nth-child(even) {
 }
 footer td, th{
     color: #fff;
+}
+.hidden {
+    display: none;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -340,6 +345,24 @@ button:hover, .speech-button:hover {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+document.getElementById('oms').style.display = "inherit"
+document.getElementById('tms').style.display = "none"
+document.getElementById('fms').style.display = "none"
+function oms_button() {
+    document.getElementById('oms').style.display = "inherit"
+    document.getElementById('tms').style.display = "none"
+    document.getElementById('fms').style.display = "none"
+}
+function tms_button() {
+    document.getElementById('oms').style.display = "none"
+    document.getElementById('tms').style.display = "inherit"
+    document.getElementById('fms').style.display = "none"
+}
+function fms_button() {
+    document.getElementById('oms').style.display = "none"
+    document.getElementById('tms').style.display = "none"
+    document.getElementById('fms').style.display = "inherit"
+}
 
 var element = document.getElementsByClassName("speech-button")[0];
 var icon = document.getElementsByClassName("fas")[2];
@@ -386,6 +409,5 @@ var elements = document.getElementsByClassName("info");
           scrollTop: $('#parameter_heading').offset().top + 300
         }, 1000);    
  }
-
 
 </script>

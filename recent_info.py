@@ -1,7 +1,7 @@
 from structured_dictionary import *
-from app import all_info
 from datetime import datetime
 
+all_info = all_extracted_info.items()
 #function to get the most recent date in an array of dates
 
 def get_most_recent_date(date_array):
@@ -81,7 +81,7 @@ def get_recent_problems(dim, filled_information):
                     answer.append((problems[most_recent_index],dates[most_recent_index]))
                 return answer
     else:
-        return False
+        return [('','')]
 
 
 #print(get_recent_problems(5,filled_information))
@@ -140,9 +140,9 @@ def get_recent_medication(dim,filled_information):
                     answer.append((medications[most_recent_index], directions[most_recent_index], dates[most_recent_index]))
                 return answer
     else:
-        return False
+        return [('','','')]
 
-print(get_recent_medication(filled_information))
+#print(get_recent_medication(filled_information))
 
 def get_recent_reason_for_visit(dim,filled_information):
     answer=[]
@@ -191,9 +191,9 @@ def get_recent_reason_for_visit(dim,filled_information):
                 return answer
         
     else:
-        return False
+        return [('','')]
 
-print(get_recent_reason_for_visit(5,filled_information))
+#print(get_recent_reason_for_visit(5,filled_information))
 
 def get_recent_treatment_plan(dim,filled_information):
     answer =[]
@@ -242,9 +242,9 @@ def get_recent_treatment_plan(dim,filled_information):
                 return answer
         
     else:
-        return False
+        return [('','')]
 
-print(get_recent_treatment_plan(5,filled_information))
+#print(get_recent_treatment_plan(5,filled_information))
 
 def get_recent_EncounterDiagnosis(dim,filled_information):
     answer=[]
@@ -293,11 +293,11 @@ def get_recent_EncounterDiagnosis(dim,filled_information):
                     answer.append((EncounterDiagnosis[most_recent_index ], dates[most_recent_index]))
                 return answer
     else:
-        return False
+        return [('','')]
 
 
 
-print(get_recent_EncounterDiagnosis(5,filled_information))
+#print(get_recent_EncounterDiagnosis(5,filled_information))
 
 
 # def get_important_vital_signs(filled_information):
@@ -337,9 +337,7 @@ def get_recent_allergies(filled_information):
         if status:  # Check if there are any statuses before finding the most severe
             Severity = most_serious_status(status)
             Severity_idx = status.index(Severity)
-            return Allergies[Severity_idx], Severity
+            return [(Allergies[Severity_idx], Severity)]
     else:
-        return False
-
-
-print(get_recent_allergies(filled_information))
+        return [('','')]
+    
