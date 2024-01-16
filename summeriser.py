@@ -1,5 +1,7 @@
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=my_api_key)
 from dotenv import load_dotenv
 import itertools
 import threading
@@ -8,7 +10,7 @@ import sys
 from recent_info import *
 load_dotenv()
 my_api_key = os.environ.get('API_KEY')
-openai.api_key = my_api_key
+
 
 
 def problems_summary(my_arr):
@@ -85,29 +87,23 @@ t = threading.Thread(target=animate)
 t.start()
 
 input_oms =  compose_message(1)
-output = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": 
-    input_oms}]
-    )
+output = client.chat.completions.create(model="gpt-3.5-turbo", 
+messages=[{"role": "user", "content": 
+input_oms}])
 oms = str(output['choices'][0]['message']['content'])
 
 
 input_tms = compose_message(2)
-output = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": 
-      input_tms}]
-    )
+output = client.chat.completions.create(model="gpt-3.5-turbo", 
+messages=[{"role": "user", "content": 
+  input_tms}])
 tms = str(output['choices'][0]['message']['content'])
 
 
 input_fms = compose_message(5)
-output = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": 
-      input_fms}]
-    )
+output = client.chat.completions.create(model="gpt-3.5-turbo", 
+messages=[{"role": "user", "content": 
+  input_fms}])
 fms = str(output['choices'][0]['message']['content'])
 
 
